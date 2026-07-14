@@ -8,38 +8,44 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Product:
-    # TODO: add fields -> name (str), price (float),
-    # quantity (int, default 0), tags (list[str], safe default)
-    pass
+    name: str
+    price: float
+    quantity: int = 0
+    tags: list[str] = field(default_factory=list)
 
     def total_value(self):
-        # TODO: return price * quantity
-        pass
+        return self.price * self.quantity
 
 
 @dataclass
 class Inventory:
-    # TODO: add field -> products (list[Product], safe default)
-    pass
+    products: list[Product] = field(default_factory=list)
 
     def add_product(self, product):
-        # TODO: append product to self.products
-        pass
+        self.products.append(product)
 
     def total_inventory_value(self):
-        # TODO: sum total_value() across all products
-        pass
+        return sum(product.total_value() for product in self.products)
 
     def low_stock(self, threshold=5):
-        # TODO: return list of product names where quantity < threshold
-        pass
+        return [product.name for product in self.products if product.quantity < threshold]
 
 
 if __name__ == "__main__":
-    # TODO:
     # 1. Create an Inventory
-    # 2. Add at least 3 Products (vary quantities, at least one < 5)
+    inventory = Inventory()
+
+    # 2. Add at least 3 Products
+    inventory.add_product(Product("Laptop", 999.99, 10, ["electronics"]))
+    inventory.add_product(Product("Mouse", 24.99, 3, ["electronics", "accessory"]))
+    inventory.add_product(Product("Keyboard", 49.99, 7, ["electronics"]))
+    inventory.add_product(Product("Charger", 50.99, 2, ["electronics", "accessory"]))
+
     # 3. Print total inventory value, formatted to 2 decimal places
+    print(f"Total inventory value: ${inventory.total_inventory_value():.2f}")
+
     # 4. Print low-stock product names
+    print("Low-stock products:", inventory.low_stock())
+
     # 5. Print one Product directly to show the auto-generated __repr__
-    pass
+    print(inventory.products[0])

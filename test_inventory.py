@@ -7,7 +7,7 @@ Run with: python test_inventory.py
 import dataclasses
 
 try:
-    from inventory import Product, Inventory
+    from inventory_starter import Product, Inventory
 except ImportError:
     print("FAIL: Could not import Product/Inventory from inventory.py")
     raise SystemExit(1)
